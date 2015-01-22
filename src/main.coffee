@@ -2,10 +2,10 @@ crypto = require 'crypto'
 fs = require 'fs'
 hljs = require 'highlight.js'
 jade = require 'jade'
+MarkdownIt = require 'markdown-it'
 moment = require 'moment'
 path = require 'path'
 protagonist = require 'protagonist'
-Remarkable = require 'remarkable'
 
 INCLUDE = /( *)<!-- include\((.*)\) -->/gmi
 ROOT = path.dirname __dirname
@@ -44,7 +44,7 @@ includeDirective = (includePath, input) ->
     input.replace INCLUDE, includeReplace.bind(this, includePath)
 
 # Setup marked with code highlighting and smartypants
-md = new Remarkable 'full',
+md = MarkdownIt 'default',
     html: true
     linkify: true
     typographer: true
