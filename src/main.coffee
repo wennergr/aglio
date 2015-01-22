@@ -2,10 +2,10 @@ crypto = require 'crypto'
 fs = require 'fs'
 hljs = require 'highlight.js'
 jade = require 'jade'
+marked = require 'marked'
 moment = require 'moment'
 path = require 'path'
 protagonist = require 'protagonist'
-Remarkable = require 'remarkable'
 
 INCLUDE = /( *)<!-- include\((.*)\) -->/gmi
 ROOT = path.dirname __dirname
@@ -44,11 +44,10 @@ includeDirective = (includePath, input) ->
     input.replace INCLUDE, includeReplace.bind(this, includePath)
 
 # Setup marked with code highlighting and smartypants
-md = new Remarkable 'full',
-    html: true
-    linkify: true
-    typographer: true
+marked.setOptions
     highlight: highlight
+    gfm: true
+    smartypants: true
 
 # Get a list of available internal templates
 exports.getTemplates = (done) ->
@@ -108,7 +107,7 @@ exports.render = (input, options, done) ->
             fullWidth: options.fullWidth
             date: moment
             highlight: highlight
-            markdown: (content) -> md.render content
+            markdown: marked
             slug: slug
             hash: (value) ->
                 crypto.createHash('md5').update(value.toString()).digest('hex')
