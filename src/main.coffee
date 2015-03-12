@@ -4,7 +4,7 @@ hljs = require 'highlight.js'
 jade = require 'jade'
 moment = require 'moment'
 path = require 'path'
-protagonist = require 'protagonist'
+protagonist = require 'protagonist-experimental'
 Remarkable = require 'remarkable'
 
 INCLUDE = /( *)<!-- include\((.*)\) -->/gmi

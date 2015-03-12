@@ -1,6 +1,6 @@
 {
   "name": "aglio",
-  "version": "1.17.1",
+  "version": "1.17.1-experimental",
   "description": "An API Blueprint renderer with theme support",
   "main": "lib/main.js",
   "bin": {
@@ -41,7 +41,7 @@
     "highlight.js": "^8.2.0",
     "jade": "^1.5.0",
     "moment": "^2.8.1",
-    "protagonist": "~0.17.1",
+    "protagonist-experimental": "^0.18.7",
     "remarkable": "^1.5.0",
     "socket.io": "^1.0.6",
     "stylus": "~0.49.2",
