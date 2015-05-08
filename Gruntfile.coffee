@@ -46,6 +46,7 @@ module.exports = (grunt) ->
     grunt.loadNpmTasks 'grunt-coffeelint'
     grunt.loadNpmTasks 'grunt-contrib-coffee'
     grunt.loadNpmTasks 'grunt-mocha-cov'
+    grunt.loadNpmTasks 'grunt-npm-install'
 
     grunt.registerTask 'gen-examples', 'Generate an example for each theme', ->
         done = @async()
@@ -67,4 +68,4 @@ module.exports = (grunt) ->
     grunt.registerTask 'coverage', ['compile', 'mochacov:html']
     grunt.registerTask 'coveralls', ['compile', 'mochacov:reportcoverage']
     grunt.registerTask 'examples', ['compile', 'gen-examples']
-    grunt.registerTask 'default', ['compile']
+    grunt.registerTask 'default', ['npm-install', 'compile']
