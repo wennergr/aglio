@@ -91,6 +91,13 @@ mixin RequestResponse(title, request, resourceGroup, resource, action)
                         each item in request.headers
                             != highlight(item.name + ': ' + item.value, 'http')
                             br
+
+            each data in request.content
+                if data.element == 'dataStructure'
+                    h5 Attributes
+                    +DataStructure(data, null)
+                    br
+
             if request.body
                 h5 Body
                 pre
@@ -109,31 +116,29 @@ mixin Examples(resourceGroup, resource, action)
             each response in example.responses
                 +RequestResponse('Response', response, resourceGroup, resource, action)
                 
-mixin DataStructure(dataStructure)
-    section.panel.panel-info
-        .panel-heading
-            h5.panel-title
-                if dataStructure.name.literal
-                    = dataStructure.name.literal
-                | &nbsp;Attributes
-        .panel-body
-            dl.dl-horizontal
-                each section in dataStructure.sections
-                    each member in section.content
-                        if member.class == 'property'
-                            dt= member.content.name ? member.content.name.literal : ''
-                            dd
-                                if member.content.valueDefinition.typeDefinition.typeSpecification.name
-                                    code= member.content.valueDefinition.typeDefinition.typeSpecification.name
-                                    | &nbsp;
-                                if member.content.valueDefinition.values.length
-                                    span.text-muted.example
-                                        strong Example:&nbsp;
-                                        = member.content.valueDefinition.values[0].literal
-                                if member.content.description
-                                    != markdown(member.content.description)
-                                else
-                                    p
+mixin DataStructure(dataStructure, name)
+  ul.list-group
+     if name 
+        li.list-group-item.bg-default: strong= name
+
+     li.list-group-item
+        dl.dl-horizontal
+            each section in dataStructure.sections
+                each member in section.content
+                    if member.class == 'property'
+                        dt= member.content.name ? member.content.name.literal : ''
+                        dd
+                            if member.content.valueDefinition.typeDefinition.typeSpecification.name
+                                code= member.content.valueDefinition.typeDefinition.typeSpecification.name
+                                | &nbsp;
+                            if member.content.valueDefinition.values.length
+                                span.text-muted.example
+                                    strong Example:&nbsp;
+                                    = member.content.valueDefinition.values[0].literal
+                            if member.content.description
+                                != markdown(member.content.description)
+                            else
+                                p
 
 mixin ResourceGroup(resourceGroup, getButtonClass, multipage)
     .panel.panel-default
@@ -156,7 +161,7 @@ mixin ResourceGroup(resourceGroup, getButtonClass, multipage)
                     != markdown(resource.description)
                 each data in resource.content
                     if data.element == 'dataStructure'
-                        +DataStructure(data)
+                        +DataStructure(data, 'Attributes')
                 each action in resource.actions
                     case action.method
                         when 'POST': - var panelClass = 'panel-success'
@@ -187,6 +192,9 @@ mixin ResourceGroup(resourceGroup, getButtonClass, multipage)
                         - var params = action.parameters.length ? action.parameters : resource.parameters
                         if params.length
                             +Parameters(params)
+                        each data in action.content
+                            if data.element == 'dataStructure'
+                                +DataStructure(data, 'Attributes')
                         if action.examples
                             +Examples(resourceGroup, resource, action)
 
