@@ -137,8 +137,10 @@ mixin DataStructure(dataStructure, name)
                                     = member.content.valueDefinition.values[0].literal
                             if member.content.description
                                 != markdown(member.content.description)
-                            else
-                                p
+                            if member.content.sections.length
+                                span.text-muted.example
+                                    strong Object:&nbsp;
+                                +DataStructure(member.content, null)
 
 mixin ResourceGroup(resourceGroup, getButtonClass, multipage)
     .panel.panel-default
