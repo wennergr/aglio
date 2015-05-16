@@ -125,10 +125,10 @@ mixin DataStructure(dataStructure, name)
         dl.dl-horizontal
             each section in dataStructure.sections
                 each member in section.content
-                    - var valueDef = member.content.valueDefinition
-                    - var typeDef = valueDef.typeDefinition
-
                     if member.class == 'value'
+                        - var valueDef = member.content.valueDefinition
+                        - var typeDef = valueDef.typeDefinition
+
                         dt= valueDef.values.length ? valueDef.values[0].literal : ''
                         dd
                             if typeDef.typeSpecification.name
@@ -139,6 +139,9 @@ mixin DataStructure(dataStructure, name)
                                 != markdown(member.content.description)
 
                     if member.class == 'property' || member.class == 'enum'
+                        - var valueDef = member.content.valueDefinition
+                        - var typeDef = valueDef.typeDefinition
+
                         dt= member.content.name ? member.content.name.literal : ''
                         dd
                             if typeDef.typeSpecification.name
