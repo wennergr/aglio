@@ -145,7 +145,8 @@ mixin DataStructure(dataStructure, name)
                         dt= member.content.name ? member.content.name.literal : ''
                         dd
                             if typeDef.typeSpecification.name
-                                code= typeDef.typeSpecification.name
+                                - var name = typeDef.typeSpecification.name.literal || typeDef.typeSpecification.name
+                                code= name
                                 | &nbsp;
 
                             if valueDef.values.length
