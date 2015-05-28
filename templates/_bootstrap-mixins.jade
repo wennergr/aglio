@@ -149,6 +149,10 @@ mixin DataStructure(dataStructure, name)
                                 code= name
                                 | &nbsp;
 
+                            if typeDef.attributes.length
+                                span= '(' + typeDef.attributes.join(', ') + ')'
+                                | &nbsp;
+
                             if valueDef.values.length
                                 span.text-muted.example
                                     strong Example:&nbsp;
