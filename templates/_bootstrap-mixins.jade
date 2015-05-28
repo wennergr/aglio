@@ -138,6 +138,9 @@ mixin DataStructure(dataStructure, name)
                             if member.content.description
                                 != markdown(member.content.description)
 
+                            if member.content.sections.length
+                                +DataStructure(member.content, null)
+
                     if member.class == 'property' || member.class == 'enum'
                         - var valueDef = member.content.valueDefinition
                         - var typeDef = valueDef.typeDefinition
@@ -160,6 +163,7 @@ mixin DataStructure(dataStructure, name)
 
                             if member.content.description
                                 != markdown(member.content.description)
+
                             if member.content.sections.length
                                 +DataStructure(member.content, null)
 
