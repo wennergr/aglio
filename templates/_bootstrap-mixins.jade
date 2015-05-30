@@ -149,7 +149,8 @@ mixin DataStructure(dataStructure, name)
                         dd
                             if typeDef.typeSpecification.name
                                 - var name = typeDef.typeSpecification.name.literal || typeDef.typeSpecification.name
-                                code= name
+                                - var types = typeDef.typeSpecification.nestedTypes.length ? '[' + typeDef.typeSpecification.nestedTypes.join(', ') + ']' : ''
+                                code= name + types
                                 | &nbsp;
 
                             if typeDef.attributes.length
