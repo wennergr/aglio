@@ -66,8 +66,8 @@ mixin Parameters(params)
                                     code= value.value
                                     = ' '
 
-mixin RequestResponse(title, request, resourceGroup, resource, action)
-    - var id = hash(resourceGroup.name.toString() + resource.name.toString() + action.name.toString() + action.method.toString() + title.toString() + request.name.toString() + request.headers.toString() + request.body.toString() + request.schema.toString())
+mixin RequestResponse(title, request, resourceGroup, resource, action, exampleIndex, subIndex)
+    - var id = slug(resourceGroup.name) + '-' + slug(resource.name) + '-' + (action.name ? slug(action.name) : index) + '-example-' + exampleIndex + '-' + slug(title) + '-' + subIndex
     - var content = request.description || Object.keys(request.headers).length || request.body || request.schema
     li.list-group-item
         strong
@@ -110,11 +110,11 @@ mixin RequestResponse(title, request, resourceGroup, resource, action)
 
 mixin Examples(resourceGroup, resource, action)
     ul.list-group
-        each example in action.examples
-            each request in example.requests
-                +RequestResponse('Request', request, resourceGroup, resource, action)
-            each response in example.responses
-                +RequestResponse('Response', response, resourceGroup, resource, action)
+        each example, exampleIndex in action.examples
+            each request, subIndex in example.requests
+                +RequestResponse('Request', request, resourceGroup, resource, action, exampleIndex, subIndex)
+            each response, subIndex in example.responses
+                +RequestResponse('Response', response, resourceGroup, resource, action, exampleIndex, subIndex)
                 
 mixin DataStructure(dataStructure, name)
   ul.list-group
