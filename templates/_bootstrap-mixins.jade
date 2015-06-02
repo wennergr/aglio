@@ -19,8 +19,8 @@ mixin Nav(multipage, collapsible)
                             if !condenseNav || (resource.actions.length != 1)
                                 a.list-group-item(href="##{multipage ? 'page:' + slug(resourceGroup.name) + ',header:' : ''}#{slug(resourceGroup.name)}-#{slug(resource.name)}", style="border-top-left-radius: 0; border-top-right-radius: 0")
                                     = resource.name || 'Resource'
-                                each action in resource.actions
-                                    a.list-group-item(href="##{multipage ? 'page:' + slug(resourceGroup.name) + ',header:' : ''}#{slug(resourceGroup.name)}-#{slug(resource.name)}-#{slug(action.method)}", style="border-top-left-radius: 0; border-top-right-radius: 0")
+                                each action, index in resource.actions
+                                    a.list-group-item(href="##{multipage ? 'page:' + slug(resourceGroup.name) + ',header:' : ''}#{slug(resourceGroup.name)}-#{slug(resource.name)}-#{action.name ? slug(action.name) : index}", style="border-top-left-radius: 0; border-top-right-radius: 0")
                                         +Icon(action.method)
                                         span.indent
                                             = action.name || action.method + ' ' + (action.attributes.uriTemplate || resource.uriTemplate)
@@ -190,7 +190,7 @@ mixin ResourceGroup(resourceGroup, getButtonClass, multipage)
                 each data in resource.content
                     if data.element == 'dataStructure'
                         +DataStructure(data, 'Attributes')
-                each action in resource.actions
+                each action, index in resource.actions
                     case action.method
                         when 'POST': - var panelClass = 'panel-success'
                         when 'GET': - var panelClass = 'panel-info'
@@ -198,7 +198,7 @@ mixin ResourceGroup(resourceGroup, getButtonClass, multipage)
                         when 'PATCH': - var panelClass = 'panel-warning'
                         when 'DELETE': - var panelClass = 'panel-danger'
                         default: - var panelClass = 'panel-default'
-                    section.panel(class=panelClass, id="#{slug(resourceGroup.name)}-#{slug(resource.name)}-#{slug(action.method)}")
+                    section.panel(class=panelClass, id="#{slug(resourceGroup.name)}-#{slug(resource.name)}-#{action.name ? slug(action.name) : index}")
                         .panel-heading
                             if action.name
                                 div(style="float:right")
@@ -211,7 +211,7 @@ mixin ResourceGroup(resourceGroup, getButtonClass, multipage)
                                 when 'DELETE': - var btnClass = 'btn-danger'
                                 default: - var btnClass = 'btn-default'
                             div(style="float:left")
-                                a.btn.btn-xs(class=btnClass, href="##{(multipage ? 'page:' + slug(resourceGroup.name) + ',header:' : '')}#{slug(resourceGroup.name)}-#{slug(resource.name)}-#{slug(action.method)}")= action.method
+                                a.btn.btn-xs(class=btnClass, href="##{(multipage ? 'page:' + slug(resourceGroup.name) + ',header:' : '')}#{slug(resourceGroup.name)}-#{slug(resource.name)}-#{action.name ? slug(action.name) : index}")= action.method
                             div(style="overflow:hidden")
                                 code= action.attributes.uriTemplate || resource.uriTemplate
                         if action.description
